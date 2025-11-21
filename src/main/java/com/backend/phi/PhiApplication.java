@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories("com.backend.phi.repository")
 
 public class PhiApplication {
-    static void main(String[] args) {
+    public static void main(String[] args) {
         SpringApplication.run(PhiApplication.class, args);
     }
 }

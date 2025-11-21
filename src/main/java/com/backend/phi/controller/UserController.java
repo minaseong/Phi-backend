@@ -1,6 +1,5 @@
 package com.backend.phi.controller;
 
-import com.backend.phi.dto.auth.LoginRequest;
 import com.backend.phi.dto.user.UserRequest;
 import com.backend.phi.dto.user.UserResponse;
 import com.backend.phi.entity.User;
@@ -116,14 +115,6 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    // ---------- Simple login endpoint (no hashing yet) ----------
-
-    // POST /api/users/v1/login
-    @PostMapping("/login")
-    public ResponseEntity<UserResponse> login(@RequestBody LoginRequest request) {
-        return userService.getUserByEmail(request.getEmail())
-                .filter(u -> u.getPassword().equals(request.getPassword()))
-                .map(u -> ResponseEntity.ok(toResponse(u)))
-                .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
-    }
+    // 기존 로그인 엔드포인트는 /api/auth/login으로 이동했습니다
+    // JWT 토큰 기반 인증을 사용하세요
 }

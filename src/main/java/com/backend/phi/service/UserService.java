@@ -2,7 +2,7 @@ package com.backend.phi.service;
 
 import com.backend.phi.entity.User;
 import com.backend.phi.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,14 +12,19 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     // Create or update user
     public User saveUser(User user) {
+        // 비밀번호가 평문으로 들어오면 해싱
+        if (user.getPassword() != null && !user.getPassword().startsWith("$2a$")) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
         return userRepository.save(user);
     }
 
